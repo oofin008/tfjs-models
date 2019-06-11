@@ -9,9 +9,11 @@
     "node": ">=8.9.0"
   },
   "dependencies": {
-    "@tensorflow-models/posenet": "^2.0.0",
-    "@tensorflow/tfjs": "^1.1.2",
-    "stats.js": "^0.17.0"
+    "@tensorflow-models/posenet": "^0.2.3",
+    "@tensorflow/tfjs": "^0.15.2",
+    "compute-cosine-similarity": "^1.0.0",
+    "stats.js": "^0.17.0",
+    "vptree": "^1.0.0"
   },
   "scripts": {
     "watch": "cross-env NODE_ENV=development parcel index.html --no-hmr --open ",
@@ -30,8 +32,7 @@
     "dat.gui": "^0.7.2",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
-    "parcel-bundler": "~1.10.3",
-    "yalc": "~1.0.0-pre.27"
+    "parcel-bundler": "~1.10.3"
   },
   "eslintConfig": {
     "extends": "google",

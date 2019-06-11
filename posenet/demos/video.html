@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PoseNet - Video input</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable=no">
+	<style type="text/css">
+
+		body {
+			margin: 0;
+		}
+
+		#video-demo-container {
+			width: 400px;
+			margin: 40px auto;
+		}
+
+		#main-video {
+			display: none;
+			max-width: 400px;
+		}
+
+		#thumbnail-container {
+			display: none;
+		}
+
+		#get-thumbnail {
+			display: none;
+		}
+
+		#video-canvas {
+			display: none;
+		}
+
+		#upload-button {
+			width: 150px;
+			display: block;
+			margin: 20px auto;
+		}
+
+		#file-to-upload {
+			display: none;
+		}
+		
+		@media only screen and (max-width: 600px) {
+		  .footer-text, .dg {
+			display: none;
+		  }
+		}
+		
+		canvas{
+			border: 1px solid black;
+		}
+	</style>
+</head>
+
+<body>
+
+<div id="video-demo-container">
+	<button id="upload-button">Select MP4 Video</button> 
+	<input type="file" id="file-to-upload" accept="video/mp4" />
+<!--	remove controls-->
+	<video id="main-video" >
+		<source type="video/mp4">
+	</video>
+	<canvas id="video-canvas"></canvas>
+	<div id="thumbnail-container">
+		 Seek to <select id="set-video-seconds"></select> seconds <a id="get-thumbnail" href="#">Download Thumbnail</a>
+		<button id="process-button">Create Data Set</button>
+	</div>
+</div>
+<div id="info" style='display:none'>
+    </div>
+    <div id="loading">
+        Loading the model...
+    </div>
+	<div>
+		<button id="start_stream_button">start stream</button>
+		<div id='main' style='display:none'>
+			<video id="video" playsinline style=" -moz-transform: scaleX(-1);
+			-o-transform: scaleX(-1);
+			-webkit-transform: scaleX(-1);
+			transform: scaleX(-1);
+			display: none;
+			">
+			</video>
+			<canvas id="output"></canvas>
+		</div>
+		<div id="image_block" style='display: inline-block'>
+			<canvas id="result_img"></canvas>
+		</div>
+	</div>
+	<div id='text_block'>
+		<textarea rows="20" cols="100" id='skeletonValue'></textarea>
+	</div>
+    <div class="footer">
+        <div class="footer-text">
+
+        </div>
+    </div>
+
+<script src="dataset.js"></script>
+
+</body>
+</html>

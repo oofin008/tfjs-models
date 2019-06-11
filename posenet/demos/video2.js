@@ -214,6 +214,7 @@ async function setupCamera() {
 	console.log('stream: ', stream);
   return new Promise((resolve) => {
     video.onloadedmetadata = () => {
+		console.log("load meta success: ", video);
       resolve(video);
     };
   });
