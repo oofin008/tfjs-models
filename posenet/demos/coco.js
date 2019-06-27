@@ -126,6 +126,7 @@ function drawSinglePoseResults(pose) {
   visualizeOutputs(
       partId, showHeatmap, showOffsets, showDisplacements,
       canvas.getContext('2d'));
+  console.log('Single pose:', pose);
 }
 
 /**
@@ -144,6 +145,7 @@ function drawMultiplePosesResults(poses) {
   visualizeOutputs(
       partId, showHeatmap, showOffsets, showDisplacements,
       canvas.getContext('2d'));
+	console.log('multi pose:', poses[0]);
 }
 
 /**
@@ -335,7 +337,7 @@ function disposeModelOutputs() {
 async function testImageAndEstimatePoses(net) {
   setStatusText('Predicting...');
   document.getElementById('results').style.display = 'none';
-
+	console.clear();
   // Purge prevoius variables and free up GPU memory
   disposeModelOutputs();
 
@@ -365,7 +367,7 @@ let guiState;
 function setupGui(net) {
   guiState = {
     outputStride: 16,
-    image: 'tennis_in_crowd.jpg',
+    image: 'frisbee.jpg',
     detectPoseButton: () => {
       testImageAndEstimatePoses(net);
     },

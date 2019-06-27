@@ -66,19 +66,42 @@ async function delay_change_frame(frame){
 let vptree;
 function buildVPTree() {
   // Initialize our vptree with our images’ pose data and a distance function
-  vptree = VPTreeFactory.build(poseData, cosineDistanceMatching);
+  vptree = VPTreeFactory.build(poseData, weightedDistanceMatching);
   console.log('build VP tree success');
 }
+
 function cosineDistanceMatching(poseVector1, poseVector2){
 	let cosineSimilarity = similarity(poseVector1, poseVector2);
 	let distance = 2 * (1 - cosineSimilarity);
 	return Math.sqrt(distance);
 }
+
+function weightedDistanceMatching(poseVector1, poseVector2) {
+  let vector1PoseXY = poseVector1.slice(0, 34);
+  let vector1Confidences = poseVector1.slice(34, 51);
+  let vector1ConfidenceSum = poseVector1.slice(51, 52);
+
+  let vector2PoseXY = poseVector2.slice(0, 34);
+
+  // First summation
+  let summation1 = 1 / vector1ConfidenceSum;
+
+  // Second summation
+  let summation2 = 0;
+  for (let i = 0; i < vector1PoseXY.length; i++) {
+    let tempConf = Math.floor(i / 2);
+    let tempSum = vector1Confidences[tempConf] * Math.abs(vector1PoseXY[i] - vector2PoseXY[i]);
+    summation2 = summation2 + tempSum;
+  }
+  return summation1 * summation2;
+}
+
 function findMostSimilarMatch(userPose) {
 	// search the vp tree for the image pose that is nearest (in cosine distance) to userPose
 	let nearestImage = vptree.search(userPose);
 	if(nearestImage[0] == undefined){
-		alert("undefine yea!!");
+		//what to do with undefine;
+		//alert("undefine yea!!");
 		return 0;
 	}
 	else{
@@ -150,6 +173,13 @@ async function call_change_frame(_Array){
 				test_L2.push(test_vec[i+1]/norm);
 				norm = 0;
 			}
+			var sumScore = 0;
+			for(var i = 34; i<51; i++){
+				test_L2.push(pose.keypoints[i-34].score);
+				sumScore += pose.keypoints[i-34].score;
+			}
+			test_L2.push(sumScore);
+			//Use weight distance here
 			poseData.push(test_L2);
 		})
 	}
@@ -546,6 +576,13 @@ function detectPoseInRealTime(video, net) {
 				pose_L2.push(pose_rescale[i+1]/norm);
 				norm = 0;
 			}// pose_L2 length = 34
+			  
+			var sumScore_2 = 0;
+			for(var i = 34; i<51; i++){
+				pose_L2.push(poses[0].keypoints[i-34].score);
+				sumScore_2 += poses[0].keypoints[i-34].score;
+			}
+			pose_L2.push(sumScore_2);
 
 			let show_key = JSON.stringify(poses);
 			document.getElementById('skeletonValue').innerHTML = show_key;
